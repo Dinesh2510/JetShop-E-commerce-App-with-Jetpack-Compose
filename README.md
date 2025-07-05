@@ -55,7 +55,7 @@ Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android ap
 
 Curious how the app works? Watch the full demo video on YouTube:
 
-[![Watch the video](https://img.youtube.com/vi/i1AOR73LNXI/hqdefault.jpg)](https://www.youtube.com/watch?v=i1AOR73LNXI)
+[![Watch the video](https://img.youtube.com/vi/rgYn_bv07ys/hqdefault.jpg)](https://www.youtube.com/watch?v=rgYn_bv07ys)
 
 ---
 ## 📲 App Screens
