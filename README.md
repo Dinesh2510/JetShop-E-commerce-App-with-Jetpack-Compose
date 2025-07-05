@@ -141,5 +141,3 @@ Want to learn, improve, or contribute? Fork the repo, raise issues or open pull 
 
 ---
 
-#   J e t S h o p - E - c o m m e r c e - A p p - w i t h - J e t p a c k - C o m p o s e  
- 
