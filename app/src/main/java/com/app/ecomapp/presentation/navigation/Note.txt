@@ -1,0 +1,85 @@
+package com.app.ecomapp.presentation.navigation
+
+import androidx.compose.foundation.background
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FormatQuote
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+
+sealed class BottomNavScreens(val route: String) {
+    object Home : BottomNavScreens("home")
+    object Cart : BottomNavScreens("cart")
+    object Wishlist : BottomNavScreens("wishlist")
+    object Profile : BottomNavScreens("profile")
+
+}
+// UI FOR BOTTOM NAVIGATION WITH PRIMARY BG
+@Composable
+fun BottomNavigationBar(navController: NavHostController, currentDestination: NavDestination?) {
+    val items = listOf(
+        BottomNavScreens.Home,
+        BottomNavScreens.Cart,
+        BottomNavScreens.Wishlist,
+        BottomNavScreens.Profile
+    )
+    NavigationBar(containerColor = Color(0xFFFF7643)) { // ✅ Set background to primary color
+        items.forEach { screen ->
+            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        imageVector = when (screen) {
+                            BottomNavScreens.Home -> Icons.Default.Home
+                            BottomNavScreens.Cart -> Icons.Default.ShoppingCart
+                            BottomNavScreens.Wishlist -> Icons.Default.Favorite
+                            BottomNavScreens.Profile -> Icons.Default.Person
+                        },
+                        contentDescription = null,
+                        tint = if (isSelected) Color.White else Color.LightGray // ✅ Change icon color based on selection
+                    )
+                },
+                label = {
+                    Text(
+                        text = screen.route.replaceFirstChar { it.uppercase() },
+                        color = if (isSelected) Color.White else Color.LightGray // ✅ Change text color based on selection
+                    )
+                },
+                selected = isSelected,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.White, // ✅ Selected icon color
+                    unselectedIconColor = Color.LightGray, // ✅ Unselected icon color
+                    selectedTextColor = Color.White, // ✅ Selected text color
+                    unselectedTextColor = Color.LightGray, // ✅ Unselected text color
+                    indicatorColor = Color(0xFFFF5722) // ✅ Highlight color for selected item
+                )
+            )
+        }
+    }
+
+}
+
+

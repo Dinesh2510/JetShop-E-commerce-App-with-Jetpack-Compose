@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JetShop</string>
+    <string name="about_text">Modern Android app UI template built with Jetpack Compose, inspired by Material Design guidelines.</string>
+    <string name="razorpay_key_id">coming from server</string>
+</resources>
