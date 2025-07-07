@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Dinesh2510/JetShop/blob/main/Screens/logo.png?raw=true" width="200" height="200" alt="JetShop Logo" />
+  <img src="Screens/logo.png?raw=true" width="200" height="200" alt="JetShop Logo" />
 </p>
 
 # 🛍️ JetShop – Modern E-Commerce Android App (Jetpack Compose)
