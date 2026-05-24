@@ -145,7 +145,18 @@ import com.app.ecomapp.utils.toWishlistProduct
 import com.compose.jetshop.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.util.Calendar
+import android.graphics.drawable.BitmapDrawable
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.palette.graphics.Palette
 
+import coil.ImageLoader
+import com.app.ecomapp.presentation.components.Spacer_16dp
+
+import kotlinx.coroutines.withContext
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -168,6 +179,7 @@ fun HomeScreen(
     val contact by viewModel.userPhone.collectAsState()
     var apiData by remember { mutableStateOf<HomeResponse?>(null) } // ✅ Store success data
     val currentApiData by rememberUpdatedState(apiData)
+    val showLoginDialog = remember { mutableStateOf(false) }
 
   /*
   SplashScreen Data u can get by this below way
@@ -183,7 +195,12 @@ fun HomeScreen(
         viewModel.resetCart()
         viewModel.getSliderCategoryProducts() // Trigger to fetch category products
     }
-
+    LoginPromptDialog(showDialog = showLoginDialog.value,
+        onDismiss = { showLoginDialog.value = false },
+        onLoginClick = {
+            showLoginDialog.value = false
+            navController.navigate(Screen.Login.route)
+        })
     // ✅ API handle Banner ,Brand, Category, Product
     HandleApiState(apiState = viewModel.homeResponse, // ✅ Pass the API state
         showLoader = false, // ✅ Enable/disable loader
@@ -197,25 +214,29 @@ fun HomeScreen(
         } else {
             Scaffold(
                 topBar = {
-                    userName?.let {
+
                         MyTopAppBar(
-                            it,
+                            userName ?: "",
                             userIsPrimeActive,
                             onSearchClick = { navController.navigate(Screen.SearchScreen.route) },
                             onClickPrime = {
+                                if (isLoggedIn.value) {
+                                    val intent =
+                                        Intent(context, PrimePayScreen::class.java).apply {
+                                            putExtra("user_id", userId)
+                                            putExtra("appName", "JetShop")
+                                            putExtra("email", email)
+                                            putExtra("contact", contact)
+                                        }
+                                    // context.startActivity(intent)
+                                    context.startActivity(intent)
+                                } else {
+                                    showLoginDialog.value = true
+                                }
 
-                                val intent =
-                                    Intent(context, PrimePayScreen::class.java).apply {
-                                        putExtra("user_id", userId)
-                                        putExtra("appName", "JetShop")
-                                        putExtra("email", email)
-                                        putExtra("contact", contact)
-                                    }
-                                // context.startActivity(intent)
-                                context.startActivity(intent)
                             },
                         )
-                    }
+
                 },
             ) { padding ->
                 LazyColumn(
@@ -236,7 +257,7 @@ fun HomeScreen(
                     item {
                         currentApiData?.sliderImageData?.let { images ->
                             if (images.isNotEmpty()) {
-                                AutoSlidingBanner(images.take(5))
+                                AutoSlidingBannerVertical(images.take(10))
                             }
                         }
                     }
@@ -324,48 +345,126 @@ fun ProductListing(
             showLoginDialog.value = false
             navController.navigate(Screen.Login.route)
         })
+    val quantityMap by
+    viewModel.cartQuantities.collectAsState()
+
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(0.dp),
-        contentPadding = PaddingValues(horizontal = 0.dp)
+
+        horizontalArrangement =
+            Arrangement.spacedBy(0.dp),
+
+        contentPadding =
+            PaddingValues(horizontal = 0.dp)
+
     ) {
-        productData.size?.let { productIndex ->
-            items(productIndex) { product ->
-                var isInWishlist by remember { mutableStateOf(false) }
 
-                LaunchedEffect(product) {
-                    wishlistViewModel.isProductInWishlist(productData[product].productId) {
-                        isInWishlist = it
-                    }
-                }
-                val wishlistProduct = productData[product].toWishlistProduct()
+        items(
+            count = productData.size ?: 0
+        ) { index ->
 
-                ProductCard(viewModel = viewModel,
-                    product = productData[product],
-                    onAddToCart = { productId ->
-                        if (isLoggedIn.value) {
-                            viewModel.addToCart(productId, "1")
-                        } else {
-                            showLoginDialog.value = true
-                        }
-                    },
-                    onViewProduct = { selectedProduct ->
-                        navController.navigate("${Screen.ProductDetails.route}/${selectedProduct.productId}")
-                    },
-                    onWishlistToggle = {
-                        if (isInWishlist) {
-                            wishlistViewModel.removeFromWishlist(wishlistProduct)
-                        } else {
-                            wishlistViewModel.addToWishlist(wishlistProduct)
-                        }
-                        isInWishlist = !isInWishlist // Toggle UI state
-                    },
-                    isInWishlist = isInWishlist,
-                    onRemoveFromCart = { produdtId ->
-                        viewModel.removeFromCart(produdtId)
-                    })
+            val product =
+                productData[index]
+
+            var isInWishlist by remember {
+                mutableStateOf(false)
             }
 
+            LaunchedEffect(product.productId) {
 
+                wishlistViewModel
+                    .isProductInWishlist(
+                        product.productId
+                    ) {
+
+                        isInWishlist = it
+                    }
+            }
+
+            val wishlistProduct =
+                product.toWishlistProduct()
+
+            val productQuantity =
+
+                quantityMap[product.productId]
+
+                    ?: product.user_cart_quantity
+                        ?.toInt()
+
+                    ?: 0
+
+            ProductCard(
+
+                viewModel = viewModel,
+
+                product = product,
+
+                productQuantity =
+                    productQuantity,
+
+                onAddToCart = { productId ->
+
+                    if (isLoggedIn.value) {
+
+                        viewModel.updateCartQuantity(
+
+                            productId,
+
+                            productQuantity + 1
+                        )
+
+                        viewModel.addToCart(
+                            productId,
+                            "1"
+                        )
+
+                    } else {
+
+                        showLoginDialog.value = true
+                    }
+                },
+
+                onViewProduct = {
+                        selectedProduct ->
+
+                    navController.navigate(
+
+                        "${Screen.ProductDetails.route}/" +
+                                selectedProduct.productId
+                    )
+                },
+
+                onWishlistToggle = {
+
+                    if (isInWishlist) {
+
+                        wishlistViewModel
+                            .removeFromWishlist(
+                                wishlistProduct
+                            )
+
+                    } else {
+
+                        wishlistViewModel
+                            .addToWishlist(
+                                wishlistProduct
+                            )
+                    }
+
+                    isInWishlist =
+                        !isInWishlist
+                },
+
+                isInWishlist =
+                    isInWishlist,
+
+                onRemoveFromCart = {
+                        productId ->
+
+                    viewModel.removeFromCart(
+                        productId
+                    )
+                }
+            )
         }
     }
 }
@@ -374,6 +473,7 @@ fun ProductListing(
 @Composable
 fun ProductCard(
     product: ProductData,
+    productQuantity: Int,
     viewModel: HomeViewModel,
     onAddToCart: (String) -> Unit,
     onRemoveFromCart: (String) -> Unit,
@@ -381,10 +481,6 @@ fun ProductCard(
     onWishlistToggle: () -> Unit,
     isInWishlist: Boolean,
 ) {
-    // Quantity state initialized with API value
-    val quantity by viewModel.cartQuantities.collectAsState()
-    val productQuantity = quantity[product.productId] ?: product.user_cart_quantity?.toInt() ?: 0
-
 
     Card(elevation = CardDefaults.cardElevation(6.dp),
         shape = RoundedCornerShape(10.dp),
@@ -502,7 +598,7 @@ fun ProductCard(
                 // Add to Cart Button
                 Button(
                     onClick = {
-                        viewModel.updateCartQuantity(product.productId, productQuantity + 1)
+                           // viewModel.updateCartQuantity(product.productId, productQuantity + 1)
                         onAddToCart(product.productId)
                     },
                     shape = RoundedCornerShape(6.dp),
@@ -662,70 +758,309 @@ sealed class ItemType {
     data class Brand(val brandData: BrandData) : ItemType()
     data class Category(val categoryData: CategoryData) : ItemType()
 }
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AutoSlidingBanner(sliderImageData: List<SliderImageData>?) {
-    if (sliderImageData.isNullOrEmpty()) return // ✅ Exit if null or empty
+fun AutoSlidingBannerVertical(
+    sliderImageData: List<SliderImageData>?
+) {
 
-    val pagerState = rememberPagerState(pageCount = { sliderImageData.size })
-    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    val featuredBanners =
+        sliderImageData?.filter {
+            it.isActive == 2
+        } ?: emptyList()
+
+    if (featuredBanners.isEmpty()) return
+
+    /* =========================================
+       INFINITE PAGER
+    ========================================= */
+
+    val startIndex =
+        Int.MAX_VALUE / 2
+
+    val pagerState =
+        rememberPagerState(
+
+            initialPage = startIndex,
+
+            pageCount = {
+                Int.MAX_VALUE
+            }
+        )
+
+    /* =========================================
+       DYNAMIC BG COLORS
+    ========================================= */
+
+    val pageColors =
+        remember {
+            mutableStateMapOf<Int, Color>()
+        }
+
+    val actualIndex =
+        pagerState.currentPage %
+                featuredBanners.size
+
+    val currentTargetColor =
+        pageColors[actualIndex]
+            ?: BackgroundContent
+
+    val animatedBackgroundColor by
+    animateColorAsState(
+
+        targetValue =
+            currentTargetColor,
+
+        animationSpec =
+            tween(800),
+
+        label = "bgColor"
+    )
+
+    /* =========================================
+       AUTO SLIDE
+    ========================================= */
 
     LaunchedEffect(Unit) {
+
         while (true) {
-            delay(4000) // Delay before auto-slide
-            coroutineScope.launch {
-                val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+
+            delay(4000)
+
+            try {
+
                 pagerState.animateScrollToPage(
-                    nextPage, animationSpec = tween(800)
-                ) // Smooth scroll
+
+                    page =
+                        pagerState.currentPage + 1,
+
+                    animationSpec = tween(
+                        durationMillis = 1000,
+                        easing = FastOutSlowInEasing
+                    )
+                )
+
+            } catch (_: Exception) {
+
             }
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer_8dp() // Space between pager & dots
-        HorizontalPager(state = pagerState) { page ->
-            BannerImage(sliderImageData[page].imageUrl)
+    /* =========================================
+       EXTRACT DOMINANT COLORS
+    ========================================= */
+
+    LaunchedEffect(featuredBanners) {
+
+        withContext(Dispatchers.IO) {
+
+            featuredBanners.forEachIndexed { index, item ->
+
+                try {
+
+                    val loader =
+                        ImageLoader(context)
+
+                    val request =
+                        ImageRequest.Builder(context)
+                            .data(item.imageUrl)
+                            .allowHardware(false)
+                            .build()
+
+                    val result =
+                        loader.execute(request)
+
+                    val bitmap =
+                        (result.drawable as? BitmapDrawable)
+                            ?.bitmap
+
+                    bitmap?.let {
+
+                        val palette =
+                            Palette
+                                .from(it)
+                                .generate()
+
+                        val extractedColor =
+
+                            palette.vibrantSwatch?.rgb
+                                ?: palette.dominantSwatch?.rgb
+
+                        extractedColor?.let { color ->
+
+                            pageColors[index] =
+                                Color(color)
+                        }
+                    }
+
+                } catch (_: Exception) {
+
+                }
+            }
         }
+    }
 
-        Spacer_8dp() // Space between pager & dots
+    /* =========================================
+       UI
+    ========================================= */
 
-        sliderImageData.size.let {
-            DotsIndicator(
-                totalDots = it, selectedIndex = pagerState.currentPage, dotSize = 8.dp
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+
+                Brush.verticalGradient(
+
+                    colors = listOf(
+
+                        animatedBackgroundColor
+                            .copy(alpha = 0.7f),
+
+                        BackgroundContent
+                    )
+                )
             )
+    ) {
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Spacer_8dp()
+
+            HorizontalPager(
+
+                state = pagerState,
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp),
+
+                contentPadding =
+                    PaddingValues(horizontal = 32.dp),
+
+                pageSpacing = 16.dp
+
+            ) { page ->
+
+                val actualPage =
+                    page % featuredBanners.size
+
+                BannerImageVer(
+                    featuredBanners[actualPage].imageUrl
+                )
+            }
+
+            Spacer_8dp()
+
+            DotsIndicator(
+
+                totalDots =
+                    featuredBanners.size,
+
+                selectedIndex =
+                    actualIndex,
+
+                dotSize = 8.dp
+            )
+
+            Spacer_16dp()
         }
     }
 }
-
 
 @Composable
-fun BannerImage(it: String) {
-    Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = BackgroundContent, // Set your card background color
-                contentColor = Color.White // Set text or icon color inside the card
-            ),
-            modifier = Modifier
-                .height(190.dp)
-                .fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
-            elevation = CardDefaults.cardElevation(8.dp)
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(it),
+fun BannerImageVer(
+    imageUrl: String
+) {
+    Card(
+
+        modifier = Modifier
+            .fillMaxWidth(),
+
+        shape = RoundedCornerShape(16.dp),
+
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 12.dp
+        ),
+
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        )
+
+    ) {
+
+        Box {
+
+            AsyncImage(
+
+                model = ImageRequest.Builder(
+                    LocalContext.current
+                )
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
+
                 contentDescription = null,
+
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
+
+                contentScale = ContentScale.Crop
+            )
+
+            /* PREMIUM DARK OVERLAY */
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+
+                        Brush.verticalGradient(
+
+                            colors = listOf(
+
+                                Color.Transparent,
+
+                                Color.Black.copy(alpha = 0.15f),
+
+                                Color.Black.copy(alpha = 0.55f)
+                            ),
+
+                            startY = 150f
+                        )
+                    )
+            )
+
+            /* GLOW BORDER */
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(
+
+                        width = 1.dp,
+
+                        brush = Brush.linearGradient(
+
+                            colors = listOf(
+
+                                Color.White.copy(alpha = 0.35f),
+
+                                Color.Transparent,
+
+                                Color.White.copy(alpha = 0.15f)
+                            )
+                        ),
+
+                        shape = RoundedCornerShape(16.dp)
+                    )
             )
         }
     }
 }
-
-
 @Composable
 fun DotsIndicator(
     modifier: Modifier = Modifier,
@@ -909,12 +1244,33 @@ fun ShimmerPrimeBadge(onClick: () -> Unit) {
 }
 
 
+fun getGreetingMessage(name: String?): List<String> {
+
+    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+    val greeting = when (hour) {
+        in 5..11 -> "Good Morning"
+        in 12..16 -> "Good Afternoon"
+        in 17..20 -> "Good Evening"
+        else -> "Good Night"
+    }
+
+    return if (!name.isNullOrEmpty()) {
+        listOf(
+            "$greeting, $name",
+            "JetShop"
+        )
+    } else {
+        listOf(
+            greeting,
+            "JetShop"
+        )
+    }
+}
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AnimatedGreeting(name: String, moveUp: Boolean) {
-    val greetings = listOf(
-        "Hi, $name", "JetShop"
-    )
+    val greetings = getGreetingMessage(name)
 
     var currentIndex by remember { mutableStateOf(0) }
 
@@ -1254,70 +1610,233 @@ fun CategoryBrandDetails(
         }
     }
 
-    Scaffold(topBar = {
-        ToolbarWithBackButtonAndTitle(
-            title = if (isCategoryScreen) "Shop CategoryWise" else "Shop BrandWise"
-        , onBackClick = {navController.popBackStack()})
-    }) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+    Scaffold(
+
+        topBar = {
+
+            ToolbarWithBackButtonAndTitle(
+
+                title = if (isCategoryScreen)
+                    "Shop CategoryWise"
+                else
+                    "Shop BrandWise",
+
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+    ) { paddingValues ->
+
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+
             when (homeResponse) {
+
                 is Resource.Success -> {
+
                     val productData =
-                        (homeResponse as Resource.Success<CategoryDetailsResponse?>)?.data?.products
+
+                        (homeResponse as
+                                Resource.Success<CategoryDetailsResponse?>)
+
+                            ?.data
+                            ?.products
 
                     if (!productData.isNullOrEmpty()) {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(productData.size) { product ->
-                                var isInWishlist by remember { mutableStateOf(false) }
 
-                                LaunchedEffect(productData[product].productId) {
-                                    wishlistViewModel.isProductInWishlist(productData[product].productId) {
-                                        isInWishlist = it
-                                    }
+                        /* =========================
+                           CART QUANTITY STATE
+                        ========================= */
+
+                        val quantityMap by
+                        viewModel
+                            .cartQuantities
+                            .collectAsState()
+
+                        LazyVerticalGrid(
+
+                            columns = GridCells.Fixed(2),
+
+                            contentPadding =
+                                PaddingValues(8.dp),
+
+                            horizontalArrangement =
+                                Arrangement.spacedBy(8.dp),
+
+                            verticalArrangement =
+                                Arrangement.spacedBy(8.dp)
+
+                        ) {
+
+                            items(productData.size) { index ->
+
+                                val product =
+                                    productData[index]
+
+                                var isInWishlist by remember {
+                                    mutableStateOf(false)
                                 }
 
+                                /* =========================
+                                   WISHLIST CHECK
+                                ========================= */
+
+                                LaunchedEffect(
+                                    product.productId
+                                ) {
+
+                                    wishlistViewModel
+                                        .isProductInWishlist(
+                                            product.productId
+                                        ) {
+
+                                            isInWishlist = it
+                                        }
+                                }
+
+                                /* =========================
+                                   PRODUCT QUANTITY
+                                ========================= */
+
+                                val productQuantity =
+
+                                    quantityMap[
+                                        product.productId
+                                    ]
+
+                                        ?: product
+                                            .user_cart_quantity
+                                            ?.toInt()
+
+                                        ?: 0
+
+                                /* =========================
+                                   PRODUCT CARD
+                                ========================= */
+
                                 ProductCard(
+
                                     viewModel = viewModel,
-                                    product = productData[product],
+
+                                    product = product,
+
+                                    productQuantity =
+                                        productQuantity,
+
                                     onAddToCart = { productId ->
+
                                         if (isLoggedIn.value) {
-                                            viewModel.addToCart(productId, "1")
+
+                                            viewModel
+                                                .updateCartQuantity(
+
+                                                    productId,
+
+                                                    productQuantity + 1
+                                                )
+
+                                            viewModel
+                                                .addToCart(
+                                                    productId,
+                                                    "1"
+                                                )
+
                                         } else {
-                                            showLoginDialog.value = true
+
+                                            showLoginDialog.value =
+                                                true
                                         }
                                     },
+
                                     onViewProduct = {
-                                        navController.navigate("${Screen.ProductDetails.route}/${productData[product].productId}")
+
+                                        navController.navigate(
+
+                                            "${Screen.ProductDetails.route}/" +
+                                                    product.productId
+                                        )
                                     },
+
                                     onWishlistToggle = {
+
                                         if (isInWishlist) {
-                                            wishlistViewModel.removeFromWishlist(productData[product].toWishlistProduct())
+
+                                            wishlistViewModel
+                                                .removeFromWishlist(
+
+                                                    product
+                                                        .toWishlistProduct()
+                                                )
+
                                         } else {
-                                            wishlistViewModel.addToWishlist(productData[product].toWishlistProduct())
+
+                                            wishlistViewModel
+                                                .addToWishlist(
+
+                                                    product
+                                                        .toWishlistProduct()
+                                                )
                                         }
-                                        isInWishlist = !isInWishlist
+
+                                        isInWishlist =
+                                            !isInWishlist
                                     },
-                                    isInWishlist = isInWishlist,
-                                    onRemoveFromCart = { viewModel.removeFromCart(it) }
+
+                                    isInWishlist =
+                                        isInWishlist,
+
+                                    onRemoveFromCart = {
+
+                                        viewModel
+                                            .removeFromCart(it)
+                                    }
                                 )
                             }
                         }
+
                     } else {
-                        Text("No products available", modifier = Modifier.align(Alignment.Center),style = AppMainTypography.bodyText)
+
+                        Text(
+
+                            text =
+                                "No products available",
+
+                            modifier =
+                                Modifier.align(
+                                    Alignment.Center
+                                ),
+
+                            style =
+                                AppMainTypography.bodyText
+                        )
                     }
                 }
 
                 is Resource.Loading -> {
+
                     CenteredCircularProgressIndicator()
                 }
 
                 is Resource.Error -> {
-                    Text("Failed to load data", modifier = Modifier.align(Alignment.Center),style = AppMainTypography.bodyText)
+
+                    Text(
+
+                        text =
+                            "Failed to load data",
+
+                        modifier =
+                            Modifier.align(
+                                Alignment.Center
+                            ),
+
+                        style =
+                            AppMainTypography.bodyText
+                    )
                 }
             }
         }

@@ -62,7 +62,7 @@ Curious how the app works? Watch the full demo video on YouTube:
 | Screenshot | Screenshot | Screenshot |
 |------------|------------|------------|
 | ![s1](Screens/Screenshot_20250427_132722.png) | ![s2](Screens/Screenshot_20250427_132754.png) | ![s3](Screens/Screenshot_20250427_132805.png) |
-| ![s4](Screens/Screenshot_20250427_132823.png) | ![s5](Screens/Screenshot_20250427_132953.png) | ![s6](Screens/Screenshot_20250427_133022.png) |
+| ![s4](Screens/Screenshot_20260524_215837.png) | ![s5](Screens/Screenshot_20250427_132953.png) | ![s6](Screens/Screenshot_20250427_133022.png) |
 | ![s7](Screens/Screenshot_20250427_133053.png) | ![s8](Screens/Screenshot_20250427_133124.png) | ![s9](Screens/Screenshot_20250427_134327.png) |
 | ![s10](Screens/Screenshot_20250427_134346.png) | ![s11](Screens/Screenshot_20250427_134357.png) | ![s12](Screens/Screenshot_20250427_134415.png) |
 | ![s13](Screens/Screenshot_20250427_134437.png) | ![s14](Screens/Screenshot_20250427_134543.png) | ![s15](Screens/Screenshot_20250427_134641.png) |

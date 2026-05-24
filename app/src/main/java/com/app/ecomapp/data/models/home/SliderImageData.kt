@@ -16,5 +16,7 @@ data class SliderImageData(
     @SerializedName("slider_id")
     val sliderId: String,
     @SerializedName("title")
-    val title: String
+    val title: String,
+    @SerializedName("is_active")
+    val isActive: Int
 ) : Parcelable
