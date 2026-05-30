@@ -937,10 +937,12 @@ fun AutoSlidingBannerVertical(
 
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(420.dp),
+                    .height(450.dp),        // ← keep tall height ✅
 
-                contentPadding =
-                    PaddingValues(horizontal = 32.dp),
+                contentPadding = PaddingValues(
+                    start = 50.dp,           // ← no left padding
+                    end = 50.dp             // ← only right peeks next image
+                ),
 
                 pageSpacing = 16.dp
 
@@ -973,93 +975,69 @@ fun AutoSlidingBannerVertical(
 }
 
 @Composable
-fun BannerImageVer(
-    imageUrl: String
+fun BannerImageVer(imageUrl: String) {Card(
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(450.dp),        // ← match tall height ✅
+
+    shape = RoundedCornerShape(12.dp),
+
+    elevation = CardDefaults.cardElevation(
+        defaultElevation = 6.dp
+    ),
+
+    colors = CardDefaults.cardColors(
+        containerColor = Color.Transparent
+    )
 ) {
-    Card(
+    Box {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
 
-        modifier = Modifier
-            .fillMaxWidth(),
+            contentDescription = null,
 
-        shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.fillMaxSize(),
 
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 12.dp
-        ),
-
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
+            contentScale = ContentScale.Crop  // ← Crop for tall card ✅
         )
 
-    ) {
-
-        Box {
-
-            AsyncImage(
-
-                model = ImageRequest.Builder(
-                    LocalContext.current
-                )
-                    .data(imageUrl)
-                    .crossfade(true)
-                    .build(),
-
-                contentDescription = null,
-
-                modifier = Modifier.fillMaxSize(),
-
-                contentScale = ContentScale.Crop
-            )
-
-            /* PREMIUM DARK OVERLAY */
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-
-                        Brush.verticalGradient(
-
-                            colors = listOf(
-
-                                Color.Transparent,
-
-                                Color.Black.copy(alpha = 0.15f),
-
-                                Color.Black.copy(alpha = 0.55f)
-                            ),
-
-                            startY = 150f
-                        )
-                    )
-            )
-
-            /* GLOW BORDER */
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .border(
-
-                        width = 1.dp,
-
-                        brush = Brush.linearGradient(
-
-                            colors = listOf(
-
-                                Color.White.copy(alpha = 0.35f),
-
-                                Color.Transparent,
-
-                                Color.White.copy(alpha = 0.15f)
-                            )
+        // dark overlay
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.1f),
+                            Color.Black.copy(alpha = 0.45f)
                         ),
-
-                        shape = RoundedCornerShape(16.dp)
+                        startY = 300f
                     )
-            )
-        }
+                )
+        )
+
+        // glow border
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .border(
+                    width = 1.dp,
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color.White.copy(alpha = 0.35f),
+                            Color.Transparent,
+                            Color.White.copy(alpha = 0.15f)
+                        )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                )
+        )
     }
+}
 }
 @Composable
 fun DotsIndicator(
