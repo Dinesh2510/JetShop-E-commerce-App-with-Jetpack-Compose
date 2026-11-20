@@ -2,7 +2,7 @@
   <img src="Screens/logo.png?raw=true" width="200" height="200" alt="JetShop Logo" />
 </p>
 
-# 🛍️ JetShop – Modern E-Commerce Android App (Jetpack Compose)
+# 🛍️ JetShop (2.0) – Modern E-Commerce Android App (Jetpack Compose)
 
 Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android application built using the latest **Jetpack Compose** and **Kotlin** tools. Whether you're a developer looking to learn or a business aiming to scale, JetShop delivers speed, elegance, and functionality.
 
@@ -43,7 +43,7 @@ Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android ap
 |                          | About App Screen                                                  | ✅ Completed           |
 | ⚙️ **Settings**            | Notification On/Off                                               | ✅ Completed           |
 |                          | Clear Cache                                                       | ✅ Completed           |
-|                          | App Theme                                                         | ⚠️ *Under Development* |
+|                          | Terms & conditons                                                         | ✅ Completed    |
 |                          | Privacy Policy                                                    | ✅ Completed           |
 |                          | Terms & Conditions                                                | ✅ Completed           |
 | 🤝 **Refer & Earn**       | Share referral code with inbuilt contact list                     | ✅ Completed           |
@@ -51,23 +51,29 @@ Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android ap
 |                          | Wallet History                                                    | ✅ Completed           |
 
 ---
+## 🔗 Links & Demos JetShop (1.0)
+
+- 🎥 **Previous JetShop Demo (v1.0):** [Watch on YouTube](https://youtu.be/rgYn_bv07ys?si=8P-I4vin6adauxU5)
+- 💻 **Previous Source Code (v1.0):** [JetShop v1.0 Repository](https://github.com/Dinesh2510/JetShop-E-commerce-App-with-Jetpack-Compose/tree/main)
+
+---
 ## 📹 App Walkthrough (Video)
 
 Curious how the app works? Watch the full demo video on YouTube:
 
-[![Watch the video](https://img.youtube.com/vi/rgYn_bv07ys/hqdefault.jpg)](https://www.youtube.com/watch?v=rgYn_bv07ys)
+[![Watch the video](https://img.youtube.com/vi/doIpf0i1cAo/hqdefault.jpg)](https://www.youtube.com/watch?v=rgYn_bv07ys)
 
 ---
 ## 📲 App Screens
 | Screenshot | Screenshot | Screenshot |
 |------------|------------|------------|
-| ![s1](Screens/Screenshot_20250427_132722.png) | ![s2](Screens/Screenshot_20250427_132754.png) | ![s3](Screens/Screenshot_20250427_132805.png) |
-| ![s4](Screens/Screenshot_20250427_132823.png) | ![s5](Screens/Screenshot_20260524_215837.png) | ![s6](Screens/Screenshot_20250427_133022.png) |
-| ![s7](Screens/Screenshot_20250427_133053.png) | ![s8](Screens/Screenshot_20250427_133124.png) | ![s9](Screens/Screenshot_20250427_134327.png) |
-| ![s10](Screens/Screenshot_20250427_134346.png) | ![s11](Screens/Screenshot_20250427_134357.png) | ![s12](Screens/Screenshot_20250427_134415.png) |
-| ![s13](Screens/Screenshot_20250427_134437.png) | ![s14](Screens/Screenshot_20250427_134543.png) | ![s15](Screens/Screenshot_20250427_134641.png) |
-| ![s16](Screens/Screenshot_20250427_134730.png) | ![s17](Screens/Screenshot_20250427_134752.png) | ![s18](Screens/Screenshot_20250427_134809.png) |
-| ![s19](Screens/Screenshot_20250427_134832.png) | | |
+| ![s1](Screens/Screenshot_20261120_115746.png) | ![s2](Screens/Screenshot_20261120_115818.png) | ![s3](Screens/Screenshot_20261120_115829.png) |
+| ![s4](Screens/Screenshot_20261120_115846.png) | ![s5](Screens/Screenshot_20261120_115956.png) | ![s6](Screens/Screenshot_20261120_120026.png) |
+| ![s7](Screens/Screenshot_20261120_120054.png) | ![s8](Screens/Screenshot_20261120_120110.png) | ![s9](Screens/Screenshot_20261120_120132.png) |
+| ![s10](Screens/Screenshot_20261120_120200.png) | ![s11](Screens/Screenshot_20261120_120226.png) | ![s12](Screens/Screenshot_20261120_120244.png) |
+| ![s13](Screens/Screenshot_20261120_121425.png) | ![s14](Screens/Screenshot_20261120_120504.png) | ![s15](Screens/Screenshot_20261120_120523.png) |
+| ![s16](Screens/Screenshot_20261120_120551.png) | ![s17](Screens/Screenshot_20261120_120629.png) | ![s18](Screens/Screenshot_20261120_120722.png) |
+| ![s19](Screens/Screenshot_20261120_120750.png) | | |
 
 ## 🔗 Deep Link Integration
 
