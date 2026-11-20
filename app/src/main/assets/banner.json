@@ -1,0 +1,55 @@
+{
+  "status": "Success",
+  "banner_info": [
+    {
+      "id": "1",
+      "title": "Code Complete: A Practical Handbook of Software Construction, Second Edition",
+      "brief_content": "",
+      "image": "banner_images\/1.png",
+      "draft": "0",
+      "status": "FEATURED",
+      "link": "https:\/\/amzn.to\/30Tb2Os",
+      "created_at": "13-August-2020"
+    },
+    {
+      "id": "2",
+      "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+      "brief_content": "",
+      "image": "banner_images\/555x266.jpg",
+      "draft": "0",
+      "status": "FEATURED",
+      "link": "https:\/\/amzn.to\/30Tb2Os",
+      "created_at": "13-August-2020"
+    },
+    {
+      "id": "3",
+      "title": "Structure and Interpretation of Computer Programs, Second Edition\r\n",
+      "brief_content": "",
+      "image": "banner_images\/600x450.jpg",
+      "draft": "0",
+      "status": "FEATURED",
+      "link": "https:\/\/amzn.to\/30Tb2Os",
+      "created_at": "13-August-2020"
+    },
+    {
+      "id": "4",
+      "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+      "brief_content": "",
+      "image": "banner_images\/1280x640.jpg",
+      "draft": "0",
+      "status": "FEARURED",
+      "link": "https:\/\/amzn.to\/30Tb2Os",
+      "created_at": "13-August-2020"
+    },
+    {
+      "id": "5",
+      "title": "Refactoring: Improving the Design of Existing Code",
+      "brief_content": "",
+      "image": "banner_images\/5.jpg",
+      "draft": "0",
+      "status": "FEATURED",
+      "link": "https:\/\/amzn.to\/30Tb2Os",
+      "created_at": "13-August-2020"
+    }
+  ]
+}

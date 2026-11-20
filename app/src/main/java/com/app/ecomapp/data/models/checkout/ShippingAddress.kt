@@ -1,0 +1,45 @@
+package com.app.ecomapp.data.models.checkout
+
+
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+import android.os.Parcel
+
+@Parcelize
+data class ShippingAddress(
+    @SerializedName("address")
+    val address: String,
+    @SerializedName("city")
+    val city: String,
+    @SerializedName("country")
+    val country: String,
+    @SerializedName("created_at")
+    val createdAt: String,
+    @SerializedName("default_address")
+    val defaultAddress: Int,
+    @SerializedName("google_address")
+    val googleAddress: String,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("latitude")
+    val latitude: String,
+    @SerializedName("longitude")
+    val longitude: String,
+    @SerializedName("state")
+    val state: String,
+    @SerializedName("type")
+    val type: String,
+    @SerializedName("user_id")
+    val userId: String,
+    @SerializedName("zip_code")
+    val zipCode: String
+) : Parcelable {
+    override fun describeContents(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun writeToParcel(p0: Parcel, p1: Int) {
+        TODO("Not yet implemented")
+    }
+}

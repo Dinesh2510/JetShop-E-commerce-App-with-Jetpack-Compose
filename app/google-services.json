@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "126239678885",
+    "firebase_url": "https://firepdf-4c1d6.firebaseio.com",
+    "project_id": "firepdf-4c1d6",
+    "storage_bucket": "firepdf-4c1d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126239678885:android:d8a0bd69261e15c3",
+        "android_client_info": {
+          "package_name": "com.cloud.firepdf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126239678885-a3qa193u9siqrouhmvl444hl07ac8u7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloud.firepdf",
+            "certificate_hash": "4536e9cecac9e3eb75bb2f0b266821ad16db16fe"
+          }
+        },
+        {
+          "client_id": "126239678885-t12tjse4p33l1pck551k2kcfbhjaeqcj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloud.firepdf",
+            "certificate_hash": "ee7c57ecccbf405e0cf0baac637cd451ab61e3c2"
+          }
+        },
+        {
+          "client_id": "126239678885-dj45qhp54epuvj875ustl1ld9ces24pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDV1q04a_XEKfjx3UgARoGr-Mf7GfQMh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126239678885-dj45qhp54epuvj875ustl1ld9ces24pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126239678885:android:866b4a4656b5d3711b084c",
+        "android_client_info": {
+          "package_name": "com.compose.jetshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126239678885-dj45qhp54epuvj875ustl1ld9ces24pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDV1q04a_XEKfjx3UgARoGr-Mf7GfQMh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126239678885-dj45qhp54epuvj875ustl1ld9ces24pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
