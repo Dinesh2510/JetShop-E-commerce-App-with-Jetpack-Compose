@@ -7,6 +7,32 @@
 Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android application built using the latest **Jetpack Compose** and **Kotlin** tools. Whether you're a developer looking to learn or a business aiming to scale, JetShop delivers speed, elegance, and functionality.
 
 ---
+## 🔗 Links & Demos JetShop (1.0)
+
+- 🎥 **Previous JetShop Demo (v1.0):** [Watch on YouTube](https://youtu.be/rgYn_bv07ys?si=8P-I4vin6adauxU5)
+- 💻 **Previous Source Code (v1.0):** [JetShop v1.0 Repository](https://github.com/Dinesh2510/JetShop-E-commerce-App-with-Jetpack-Compose/tree/main)
+
+---
+## 📹 App Walkthrough (Video)
+
+Curious how the app works? Watch the full demo video on YouTube:
+
+[![Watch the video](https://img.youtube.com/vi/doIpf0i1cAo/hqdefault.jpg)](https://www.youtube.com/watch?v=rgYn_bv07ys)
+
+---
+## 📲 App Screens
+| Screenshot | Screenshot | Screenshot |
+|------------|------------|------------|
+| ![s1](Screens/Screenshot_20261120_115746.png) | ![s2](Screens/Screenshot_20261120_115818.png) | ![s3](Screens/Screenshot_20261120_115829.png) |
+| ![s4](Screens/Screenshot_20261120_115846.png) | ![s5](Screens/Screenshot_20261120_115956.png) | ![s6](Screens/Screenshot_20261120_120026.png) |
+| ![s7](Screens/Screenshot_20261120_120054.png) | ![s8](Screens/Screenshot_20261120_120110.png) | ![s9](Screens/Screenshot_20261120_120132.png) |
+| ![s10](Screens/Screenshot_20261120_120200.png) | ![s11](Screens/Screenshot_20261120_120226.png) | ![s12](Screens/Screenshot_20261120_120244.png) |
+| ![s13](Screens/Screenshot_20261120_121425.png) | ![s14](Screens/Screenshot_20261120_120504.png) | ![s15](Screens/Screenshot_20261120_120523.png) |
+| ![s16](Screens/Screenshot_20261120_120551.png) | ![s17](Screens/Screenshot_20261120_120629.png) | ![s18](Screens/Screenshot_20261120_120722.png) |
+| ![s19](Screens/Screenshot_20261120_120750.png) | | |
+
+
+---
 ## ✅ App Features Overview
 
 | Section                  | Feature Description                                                | Status                |
@@ -51,30 +77,6 @@ Welcome to **JetShop**, a powerful and cleanly architected e-commerce Android ap
 |                          | Wallet History                                                    | ✅ Completed           |
 
 ---
-## 🔗 Links & Demos JetShop (1.0)
-
-- 🎥 **Previous JetShop Demo (v1.0):** [Watch on YouTube](https://youtu.be/rgYn_bv07ys?si=8P-I4vin6adauxU5)
-- 💻 **Previous Source Code (v1.0):** [JetShop v1.0 Repository](https://github.com/Dinesh2510/JetShop-E-commerce-App-with-Jetpack-Compose/tree/main)
-
----
-## 📹 App Walkthrough (Video)
-
-Curious how the app works? Watch the full demo video on YouTube:
-
-[![Watch the video](https://img.youtube.com/vi/doIpf0i1cAo/hqdefault.jpg)](https://www.youtube.com/watch?v=rgYn_bv07ys)
-
----
-## 📲 App Screens
-| Screenshot | Screenshot | Screenshot |
-|------------|------------|------------|
-| ![s1](Screens/Screenshot_20261120_115746.png) | ![s2](Screens/Screenshot_20261120_115818.png) | ![s3](Screens/Screenshot_20261120_115829.png) |
-| ![s4](Screens/Screenshot_20261120_115846.png) | ![s5](Screens/Screenshot_20261120_115956.png) | ![s6](Screens/Screenshot_20261120_120026.png) |
-| ![s7](Screens/Screenshot_20261120_120054.png) | ![s8](Screens/Screenshot_20261120_120110.png) | ![s9](Screens/Screenshot_20261120_120132.png) |
-| ![s10](Screens/Screenshot_20261120_120200.png) | ![s11](Screens/Screenshot_20261120_120226.png) | ![s12](Screens/Screenshot_20261120_120244.png) |
-| ![s13](Screens/Screenshot_20261120_121425.png) | ![s14](Screens/Screenshot_20261120_120504.png) | ![s15](Screens/Screenshot_20261120_120523.png) |
-| ![s16](Screens/Screenshot_20261120_120551.png) | ![s17](Screens/Screenshot_20261120_120629.png) | ![s18](Screens/Screenshot_20261120_120722.png) |
-| ![s19](Screens/Screenshot_20261120_120750.png) | | |
-
 ## 🔗 Deep Link Integration
 
 ### Supported Deep Links:
